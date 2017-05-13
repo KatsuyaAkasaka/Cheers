@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour {
 
 	private JugScript js;
 	private TimerScript ts;
 	private bool called = false;
+
+	public bool isBar = false;
+
+	private bool calledOnce1 = false;
+	private bool calledOnce2 = false;
+	private bool calledOnce3 = false;
 
 	public GameObject lightButton;
 	public GameObject midButton;
@@ -18,34 +25,44 @@ public class ButtonController : MonoBehaviour {
 
 	public GameObject izakayaButton;
 	public GameObject barButton;
+	public GameObject returnButton;
+
+
 
 
 	// Use this for initialization
 	void Start () {
 		js = GetComponent<JugScript>();
 		ts = GameObject.Find ("TimerText").GetComponent<TimerScript> ();
+		isBar = GameObject.Find ("DontDestroy").GetComponent<ParameterScript> ().isBar;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		//ドリンク選択中は
-		if (!js.finished) {
+		if (!js.finished && !calledOnce1) {
 			NextButton (false);
 			StoreButton (false);
 			DrinkButton (true);
-		} else {
-			//選択が終わったら
+			calledOnce1 = true;
+		}
+
+		//選択が終わったら
+		if(js.finished && !calledOnce2) {
 			NextButton(false);
 			DrinkButton (false);
 			StoreButton (false);
+			calledOnce2 = true;
 		}
 
 		//もしゲームが終了したら
-		if (ts.gameFinish) {
+		if (ts.gameFinish && !calledOnce3) {
 			NextButton (true);
 			DrinkButton (false);
 			StoreButton (false);
+			calledOnce3 = true;
 		}
 			
 	}
@@ -63,36 +80,71 @@ public class ButtonController : MonoBehaviour {
 	public void StoreButton(bool b){
 		izakayaButton.SetActive (b);
 		barButton.SetActive (b);
+		returnButton.SetActive (b);
 	}
 
 
 
-	public void OnClickBeer(){
+	public void OnClickLight(){
+
+		//居酒屋	ビール,ハイボール,焼酎		8,15,25
+		//バー	ワイン,ウイスキー,テキーラ	12,35,40
+
 		if (!called) {
-			js.state = 1;
+			if (!isBar) {
+				js.state = 0;
+			} else {
+				js.state = 3;
+			}
 			called = true;
 		}
 	}
 
-	public void OnClickOrange(){
+	public void OnClickMid(){
 		if (!called) {
-			js.state = 2;
+			if (!isBar) {
+				js.state = 1;
+			} else {
+				js.state = 4;
+			}
 			called = true;
 		}
 	}
 
-	public void OnClickWine(){
+	public void OnClickPow(){
 		if (!called) {
-			js.state = 3;
+			if (!isBar) {
+				js.state = 2;
+			} else {
+				js.state = 5;
+			}
 			called = true;
 		}
 	}
 
-	public void onClickNextBeer(){
+	public void OnClickNextBeer(){
 		SceneManager.LoadScene ("main");
 	}
 
-	public void onClickNextStore(){
+	public void OnClickNextStore(){
 		StoreButton (true);
+		DrinkButton (false);
+		NextButton (false);
+	}
+
+	public void OnClickReturn(){
+		NextButton (true);
+		DrinkButton (false);
+		StoreButton (false);
+	}
+
+	public void OnClickSakaya(){
+		GameObject.Find ("DontDestroy").SendMessage ("ChangeSakaya");
+
+	}
+
+	public void OnClickBar(){
+		GameObject.Find("DontDestroy").SendMessage ("ChangeBar");
+
 	}
 }

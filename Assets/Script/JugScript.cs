@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JugScript : MonoBehaviour {
 
-	public int state = 0;
+	public int state = -1;
 	private int finishState = 0;
 	public GameObject jug;
 	public GameObject spawner;
@@ -12,11 +12,11 @@ public class JugScript : MonoBehaviour {
 	public bool finished = false;
 	public int param;
 
-
-	//ビール
 	public GameObject fluid_yellow, fluid_white;
-	private int yellowNum = 150, whiteNum = 60;
+	private int yellowNum = 40, whiteNum = 15;
+	private int num = 50;
 
+	/*
 	//カシオレ
 	public GameObject fluid_orange;
 	private int orangeNum = 100;
@@ -24,6 +24,9 @@ public class JugScript : MonoBehaviour {
 	//ワイン
 	public GameObject fluid_purple;
 	private int purpleNum = 66;
+	*/
+
+	public GameObject[] fluids = new GameObject[5];	//順に
 
 	// Use this for initialization
 	void Start () {
@@ -32,15 +35,16 @@ public class JugScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!finished) {
+		if (!finished && state >= 0) {
 			respawnTime += Time.deltaTime;
 
-			//1の時はビール2の時はカシオレ3の時はワイン
-			if (state == 1) {
-				if (jug.activeSelf == false) {
-					finishState = 0;
-					jug.SetActive (true);
-				}
+			//0は軽く2は重い(居酒屋)
+			//3は軽く5は重い(バー)
+			//居酒屋	ビール,ハイボール,焼酎		8,15,25
+			//バー	ワイン,ウイスキー,テキーラ	12,35,40
+		
+			//ビール
+			if (state == 0) {
 				//yellow注いだ後にwhiteを注ぐ
 				if (finishState == 0 && respawnTime > 0.05f) {
 					Pour (fluid_yellow, yellowNum);
@@ -53,45 +57,79 @@ public class JugScript : MonoBehaviour {
 					respawnTime = 0;
 				}
 				if (finishState == 2) {
+					param = 8;
 					finished = true;
 				}
 
-				param = 5;
-
-
-			} else if (state == 2) {
-				if (jug.activeSelf == false) {
-					finishState = 0;
-					jug.SetActive (true);
+				//それ以外
+			} else {
+				if (finishState == 0 && respawnTime > 0.05f) {
+					Pour (fluids[state-1], num);		//stateに応じた液体を注ぐ
+					num--;
+					respawnTime = 0;
 				}
+				if (finishState == 1) {
+					switch(state){
+					case 1:
+						param = 15;		//ハイボール
+						break;
+					case 2:
+						param = 25;		//焼酎
+						break;
+					case 3:
+						param = 12;		//ワイン
+						break;
+					case 4:
+						param = 35;		//ウイスキー
+						break;
+					case 5:
+						param = 40;		//テキーラ
+						break;
+					}
+					finished = true;
+				}
+			}
+
+	/*		else if (state == ) {
 				if (finishState == 0 && respawnTime > 0.05f) {
 					Pour (fluid_orange, orangeNum);
 					orangeNum--;
 					respawnTime = 0;
 				}
 				if (finishState == 1) {
+					param = 18;
 					finished = true;
 				}
 
-				param = 7;
-
-
-			} else if (state == 3) {
-				if (jug.activeSelf == false) {
-					finishState = 0;
-					jug.SetActive (true);
-				}
+				//ワイン
+			} else if (state == 15) {
 				if (finishState == 0 && respawnTime > 0.05f) {
 					Pour (fluid_purple, purpleNum);
 					purpleNum--;
 					respawnTime = 0;
 				}
 				if (finishState == 1) {
+					param = 27;
 					finished = true;
 				}
 
-				param = 9;
-			}
+			} else if (state == 4) {
+				if (finishState == 0 && respawnTime > 0.05f) {
+					Pour ();
+				}
+				if (finishState == 1) {
+					param = 8;
+					finished = true;
+				}
+			} else if (state == 5) {
+				if (finishState == 0 && respawnTime > 0.05f) {
+					Pour ();
+				}
+				if (finishState == 1) {
+					param = 8;
+					finished = true;
+				}
+			}*/
 		}
 	}
 

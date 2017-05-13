@@ -9,7 +9,7 @@ public class TimerScript : MonoBehaviour {
 	private PlayerScript ps;
 	public Text timerText;
 	public Text cleartext;
-	private float time = 1f;
+	private float time = 6f;
 	public bool gameFinish = false;
 	private GameObject jug;
 	private int drinkingTime = 30;

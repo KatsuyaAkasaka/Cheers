@@ -31,10 +31,9 @@ public class PlayerScript : MonoBehaviour {
 		if (cs.finish && !ts.gameFinish && !gameOver) {
 			moving = Input.GetAxis ("Horizontal");
 			if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.LeftArrow)) {
-				jug.GetComponent<Rigidbody2D>().position += new Vector2 (moving * speed * Time.deltaTime, 0);
+				rigid.position += new Vector2 (moving * speed * Time.deltaTime, 0);
 				if (Mathf.Abs (jug.transform.localRotation.z) < 10f) {
 					jug.transform.Rotate (0f, 0f, moving * turningSpeed * Time.deltaTime);	
-					Debug.Log (jug.transform.localRotation.z);
 				}
 			} else {
 		

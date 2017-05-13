@@ -20,6 +20,5 @@ public class FluidScript : MonoBehaviour {
 			Destroy (this.gameObject);
 		}
 	}
-
-
+		
 }

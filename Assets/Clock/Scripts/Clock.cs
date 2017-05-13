@@ -17,11 +17,11 @@ public class Clock : MonoBehaviour {
     public static int hour = 10;
 
 	public int passMinutes;
-	int time = 1000;
+	public int time = 100;
 
     
     //-- time speed factor
-    public float clockSpeed = 1.0f;     // 1.0f = realtime, < 1.0f = slower, > 1.0f = faster
+    public float clockSpeed;     // 1.0f = realtime, < 1.0f = slower, > 1.0f = faster
 	public GameObject gameClearText;
 
     //-- internal vars
@@ -33,21 +33,21 @@ public class Clock : MonoBehaviour {
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------
-void Start() 
-{
-    pointerSeconds = transform.Find("rotation_axis_pointer_seconds").gameObject;
-    pointerMinutes = transform.Find("rotation_axis_pointer_minutes").gameObject;
-    pointerHours   = transform.Find("rotation_axis_pointer_hour").gameObject;
+	void Start() {
+		pointerSeconds = transform.Find("rotation_axis_pointer_seconds").gameObject;
+		pointerMinutes = transform.Find("rotation_axis_pointer_minutes").gameObject;
+		pointerHours   = transform.Find("rotation_axis_pointer_hour").gameObject;
 
-    msecs = 0.0f;
-    seconds = 0;
-}
+		msecs = 0.0f;
+    	seconds = 0;
+	}
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------
 	void PassTime(int passtime){
 		time = 0;
 		passMinutes = passtime;
+
 	}
 
 	void Update() {
@@ -55,10 +55,11 @@ void Start()
 			gameClearText.SetActive (true);
 		}
     //-- calculate time
-    msecs += Time.deltaTime * clockSpeed;
+   		msecs += Time.deltaTime * clockSpeed;
 		if (msecs >= 60.0f && passMinutes > time) {
+
 			time++;
-			msecs -= 60.0f;
+			msecs = 0;
 			/* seconds++;
         if(seconds >= 60)
         {*/
