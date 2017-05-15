@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 56ae79b2638b245b89701d0ba63c2afe
+timeCreated: 1494738140
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ZinHenaBokuryu
+  fontNames:
+  - ZinHenaBokuryu
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

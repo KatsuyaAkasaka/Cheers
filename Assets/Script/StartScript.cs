@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class StartScript : MonoBehaviour {
 
+	ParameterScript ps;
 	// Use this for initialization
 	void Start () {
-		
+		ps = GameObject.Find ("DontDestroy").GetComponent<ParameterScript> ();
 	}
 	
 	// Update is called once per frame

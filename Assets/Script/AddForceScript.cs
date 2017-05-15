@@ -11,6 +11,8 @@ public class AddForceScript : MonoBehaviour {
 	bool finish = false;
 	Vector2 vec;
 
+	public float power;
+
 	// Use this for initialization
 	void Start () {
 		cs = GameObject.Find ("GameController").GetComponent<CheersScript>();
@@ -27,7 +29,7 @@ public class AddForceScript : MonoBehaviour {
 			angle -= 30;
 			vec.y = 0;
 			vec.x = Mathf.Cos (angle / 180f * Mathf.PI);
-			rigid.AddForce (vec * 1000f, ForceMode2D.Impulse);
+			rigid.AddForce (vec * power, ForceMode2D.Impulse);
 			finish = true;
 		}
 	}

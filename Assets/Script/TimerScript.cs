@@ -26,7 +26,7 @@ public class TimerScript : MonoBehaviour {
 	void Update () {
 		if (cs.finish && !gameFinish && !ps.gameOver) {
 			time -= Time.deltaTime;
-			timerText.text = time.ToString ("f2");
+			timerText.text = time.ToString("f2");
 			if (time <= 0) {
 				cleartext.text = "clear!";
 				gameFinish = true;

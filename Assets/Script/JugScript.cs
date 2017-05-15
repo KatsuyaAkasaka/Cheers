@@ -16,17 +16,8 @@ public class JugScript : MonoBehaviour {
 	private int yellowNum = 40, whiteNum = 15;
 	private int num = 50;
 
-	/*
-	//カシオレ
-	public GameObject fluid_orange;
-	private int orangeNum = 100;
 
-	//ワイン
-	public GameObject fluid_purple;
-	private int purpleNum = 66;
-	*/
-
-	public GameObject[] fluids = new GameObject[5];	//順に
+	public GameObject[] fluids = new GameObject[6];	//順に
 
 	// Use this for initialization
 	void Start () {
@@ -85,51 +76,13 @@ public class JugScript : MonoBehaviour {
 					case 5:
 						param = 40;		//テキーラ
 						break;
+					case 6:
+						param = -15;
+						break;
 					}
 					finished = true;
 				}
 			}
-
-	/*		else if (state == ) {
-				if (finishState == 0 && respawnTime > 0.05f) {
-					Pour (fluid_orange, orangeNum);
-					orangeNum--;
-					respawnTime = 0;
-				}
-				if (finishState == 1) {
-					param = 18;
-					finished = true;
-				}
-
-				//ワイン
-			} else if (state == 15) {
-				if (finishState == 0 && respawnTime > 0.05f) {
-					Pour (fluid_purple, purpleNum);
-					purpleNum--;
-					respawnTime = 0;
-				}
-				if (finishState == 1) {
-					param = 27;
-					finished = true;
-				}
-
-			} else if (state == 4) {
-				if (finishState == 0 && respawnTime > 0.05f) {
-					Pour ();
-				}
-				if (finishState == 1) {
-					param = 8;
-					finished = true;
-				}
-			} else if (state == 5) {
-				if (finishState == 0 && respawnTime > 0.05f) {
-					Pour ();
-				}
-				if (finishState == 1) {
-					param = 8;
-					finished = true;
-				}
-			}*/
 		}
 	}
 

@@ -46,8 +46,9 @@ public class PlayerScript : MonoBehaviour {
 		}
 			
 		if (score > 1 && !ts.gameFinish) {
-			gameOverText.text = "乾杯失敗";
+			gameOverText.text = "GameOver...";
 			gameOver = true;
+
 		}
 	}
 }

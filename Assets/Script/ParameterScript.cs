@@ -13,30 +13,40 @@ public class ParameterScript : MonoBehaviour {
 
 	//public Text lightButtonText, midButtonText, powButtonText;
 
+	void Awake(){
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnSceneLoaded(Scene s, LoadSceneMode ls){
+		//酔いとスコアリセット
+		if (SceneManager.GetActiveScene ().name == "GameStart") {
+			yoi = 0;
+			score = 0;
+		} else {
+			Text scoreText = GameObject.Find ("ScoreText").GetComponent<Text>();
+			Slider slider = GameObject.Find ("Slider").GetComponent<Slider>();
+			slider.maxValue = 300;
+			scoreText.text = score.ToString();
+			slider.value = yoi;
+			Debug.Log (yoi);
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
-
-		Text scoreText = GameObject.Find ("ScoreText").GetComponent<Text>();
-		Slider slider = GameObject.Find ("Slider").GetComponent<Slider>();
-
-		slider.maxValue = 100;
-		scoreText.text = score.ToString();
-		slider.value = yoi;
-
+		
 	}
 
 	public void ScoreUp(){
-
 		Text scoreText = GameObject.Find ("ScoreText").GetComponent<Text>();
 		Slider slider = GameObject.Find ("Slider").GetComponent<Slider>();
 		JugScript js = GameObject.Find ("GameController").GetComponent<JugScript> ();
-		slider.maxValue = 100;
 
+		slider.maxValue = 300;
 		yoi += js.param;
 		score += js.param;
-		slider.value = yoi;
 		scoreText.text = score.ToString();
+		slider.GetComponent<SliderScript> ().change = js.param;
 	}
 
 	//背景を居酒屋にチェンジ
@@ -50,11 +60,10 @@ public class ParameterScript : MonoBehaviour {
 		//slider減少
 		Slider slider = GameObject.Find ("Slider").GetComponent<Slider> ();
 		yoi -= 25;
-		slider.value = yoi;
-
-	
-		SceneManager.LoadScene ("main");
-
+		slider.GetComponent<SliderScript> ().change = -25;
+		if (slider.GetComponent<SliderScript> ().finish) {
+			SceneManager.LoadScene ("main");
+		}
 	}
 
 	//背景をバーにチェンジ
@@ -68,12 +77,10 @@ public class ParameterScript : MonoBehaviour {
 		//sliderを減少
 		Slider slider = GameObject.Find ("Slider").GetComponent<Slider> ();
 		yoi -= 25;
-		slider.value = yoi;
-
-
-
-
-		SceneManager.LoadScene ("main");
+		slider.GetComponent<SliderScript> ().change = -25;
+		if (slider.GetComponent<SliderScript> ().finish) {
+			SceneManager.LoadScene ("main");
+		}
 
 	}
 }

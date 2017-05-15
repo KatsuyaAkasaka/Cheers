@@ -8,6 +8,7 @@ public class ButtonController : MonoBehaviour {
 
 	private JugScript js;
 	private TimerScript ts;
+	private PlayerScript ps;
 	private bool called = false;
 
 	public bool isBar = false;
@@ -15,10 +16,13 @@ public class ButtonController : MonoBehaviour {
 	private bool calledOnce1 = false;
 	private bool calledOnce2 = false;
 	private bool calledOnce3 = false;
+	private bool calledOnce4 = false;
 
 	public GameObject lightButton;
 	public GameObject midButton;
 	public GameObject powButton;
+
+	public GameObject waterButton;
 
 	public GameObject nextStoreButton;
 	public GameObject nextBeerButton;
@@ -27,14 +31,17 @@ public class ButtonController : MonoBehaviour {
 	public GameObject barButton;
 	public GameObject returnButton;
 
-
+	public GameObject backToStartButton;
 
 
 	// Use this for initialization
 	void Start () {
 		js = GetComponent<JugScript>();
 		ts = GameObject.Find ("TimerText").GetComponent<TimerScript> ();
+		ps = GetComponent<PlayerScript> ();
 		isBar = GameObject.Find ("DontDestroy").GetComponent<ParameterScript> ().isBar;
+		backToStartButton.SetActive (false);
+
 
 	}
 	
@@ -64,6 +71,13 @@ public class ButtonController : MonoBehaviour {
 			StoreButton (false);
 			calledOnce3 = true;
 		}
+		if (ps.gameOver && !calledOnce4) {
+			backToStartButton.SetActive (true);
+			NextButton (false);
+			DrinkButton (false);
+			StoreButton (false);
+			calledOnce4 = true;
+		}
 			
 	}
 
@@ -71,6 +85,7 @@ public class ButtonController : MonoBehaviour {
 		lightButton.SetActive (b);
 		midButton.SetActive (b);
 		powButton.SetActive (b);
+		waterButton.SetActive (b);
 	}
 	public void NextButton(bool b){
 		nextBeerButton.SetActive (b);
@@ -87,7 +102,7 @@ public class ButtonController : MonoBehaviour {
 
 	public void OnClickLight(){
 
-		//居酒屋	ビール,ハイボール,焼酎		8,15,25
+		//居酒屋	ビール,ハイボール,にほんしゅ		8,15,25
 		//バー	ワイン,ウイスキー,テキーラ	12,35,40
 
 		if (!called) {
@@ -122,6 +137,12 @@ public class ButtonController : MonoBehaviour {
 		}
 	}
 
+	public void OnClickWater(){
+		if (!called) {
+			js.state = 6;
+		}	
+	}
+
 	public void OnClickNextBeer(){
 		SceneManager.LoadScene ("main");
 	}
@@ -140,11 +161,13 @@ public class ButtonController : MonoBehaviour {
 
 	public void OnClickSakaya(){
 		GameObject.Find ("DontDestroy").SendMessage ("ChangeSakaya");
-
 	}
 
 	public void OnClickBar(){
 		GameObject.Find("DontDestroy").SendMessage ("ChangeBar");
+	}
 
+	public void OnClickBack(){
+		SceneManager.LoadScene ("GameStart");
 	}
 }
