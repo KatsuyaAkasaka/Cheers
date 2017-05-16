@@ -29,12 +29,14 @@ public class PlayerScript : MonoBehaviour {
 	void Update () {
 		//操作可能になったら(ゲームが終わってなかったら)
 		if (cs.finish && !ts.gameFinish && !gameOver) {
-			moving = Input.GetAxis ("Horizontal");
-			if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.LeftArrow)) {
+			moving = Input.acceleration.x;
+				//Input.GetAxis ("Horizontal");
+			//if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.LeftArrow)) {
+			if(Mathf.Abs(moving) > 0.1f){
 				rigid.position += new Vector2 (moving * speed * Time.deltaTime, 0);
-				if (Mathf.Abs (jug.transform.localRotation.z) < 10f) {
-					jug.transform.Rotate (0f, 0f, moving * turningSpeed * Time.deltaTime);	
-				}
+				//rigid.position += new Vector2 (moving * speed * Time.deltaTime, 0);
+				jug.transform.Rotate (0f, 0f, moving * turningSpeed * Time.deltaTime);	
+				
 			} else {
 		
 				if (jug.transform.rotation.z > 0) {
