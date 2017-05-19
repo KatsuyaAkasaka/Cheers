@@ -18,6 +18,9 @@ public class FluidScript : MonoBehaviour {
 		if (transform.position.y < -5f) {
 			GameObject.Find ("GameController").GetComponent<PlayerScript> ().score++;
 			Destroy (this.gameObject);
+		/*	if(SystemInfo.supportsVibration){
+				Handheld.Vibrate();
+			}*/
 		}
 	}
 		

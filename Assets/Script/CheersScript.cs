@@ -18,12 +18,12 @@ public class CheersScript : MonoBehaviour {
 	void Update () {
 
 		//注ぎ終わったら乾杯
-		if (js.finished && timer < 2f) {
+		if (js.finished && timer < 2.3f) {
 			cheersText.text = "cheers!!";
 			timer += Time.deltaTime;
 		}
-		//2秒で消失
-		if (timer > 2f && !finish) {
+		//2.3秒で消失
+		if (timer >= 2.3f && !finish) {
 			cheersText.text = "";
 			finish = true;
 		}

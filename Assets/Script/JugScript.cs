@@ -16,17 +16,28 @@ public class JugScript : MonoBehaviour {
 	private int yellowNum = 40, whiteNum = 15;
 	private int num = 50;
 
+	public GameObject nowFluid;
 
 	public GameObject[] fluids = new GameObject[6];	//順に
+
+	private AudioScript audioS;
+	private bool called = false;
 
 	// Use this for initialization
 	void Start () {
 		spawner = GameObject.Find ("Spawner");
+		audioS = GameObject.Find ("DontDestroy").GetComponent<AudioScript> ();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (!finished && state >= 0) {
+
+			if (!called) {
+				audioS.SendMessage ("pourAudio");
+				called = true;
+			}
+
 			respawnTime += Time.deltaTime;
 
 			//0は軽く2は重い(居酒屋)
@@ -77,7 +88,7 @@ public class JugScript : MonoBehaviour {
 						param = 40;		//テキーラ
 						break;
 					case 6:
-						param = -15;
+						param = -15;	//水
 						break;
 					}
 					finished = true;
@@ -88,9 +99,8 @@ public class JugScript : MonoBehaviour {
 
 	//fluidをtime回注ぐ関数
 	public void Pour(GameObject fluid, int times){
-		GameObject nowFluid = 
-			Instantiate (fluid, spawner.transform.position, Quaternion.identity)
-			as GameObject;
+		nowFluid = 
+			Instantiate (fluid, spawner.transform.position, Quaternion.identity) as GameObject;
 		nowFluid.GetComponent<Rigidbody2D> ().AddForce (transform.up * -50f);
 		if (times <= 0) {
 			finishState++;

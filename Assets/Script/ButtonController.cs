@@ -9,6 +9,7 @@ public class ButtonController : MonoBehaviour {
 	private JugScript js;
 	private TimerScript ts;
 	private PlayerScript ps;
+	private Clock clock;
 	private bool called = false;
 
 	public bool isBar = false;
@@ -33,6 +34,8 @@ public class ButtonController : MonoBehaviour {
 
 	public GameObject backToStartButton;
 
+	private AudioScript audioScript;
+
 
 	// Use this for initialization
 	void Start () {
@@ -42,7 +45,9 @@ public class ButtonController : MonoBehaviour {
 		isBar = GameObject.Find ("DontDestroy").GetComponent<ParameterScript> ().isBar;
 		backToStartButton.SetActive (false);
 
+		clock = GameObject.Find ("DontDestroy").GetComponentInChildren<Clock> ();
 
+		audioScript = GameObject.Find("DontDestroy").GetComponent<AudioScript>();
 	}
 	
 	// Update is called once per frame
@@ -71,7 +76,7 @@ public class ButtonController : MonoBehaviour {
 			StoreButton (false);
 			calledOnce3 = true;
 		}
-		if (ps.gameOver && !calledOnce4) {
+		if ((ps.gameOver && !calledOnce4) || (clock.gameClear && !calledOnce4)) {
 			backToStartButton.SetActive (true);
 			NextButton (false);
 			DrinkButton (false);
@@ -105,69 +110,98 @@ public class ButtonController : MonoBehaviour {
 		//居酒屋	ビール,ハイボール,にほんしゅ		8,15,25
 		//バー	ワイン,ウイスキー,テキーラ	12,35,40
 
-		if (!called) {
+		if (!called && !clock.gameClear) {
 			if (!isBar) {
 				js.state = 0;
 			} else {
 				js.state = 3;
 			}
+			audioScript.SendMessage ("clickAudio");
 			called = true;
 		}
 	}
 
 	public void OnClickMid(){
-		if (!called) {
+		if (!called && !clock.gameClear) {
 			if (!isBar) {
 				js.state = 1;
 			} else {
 				js.state = 4;
 			}
+			audioScript.SendMessage ("clickAudio");
+
 			called = true;
 		}
 	}
 
 	public void OnClickPow(){
-		if (!called) {
+		if (!called && !clock.gameClear) {
 			if (!isBar) {
 				js.state = 2;
 			} else {
 				js.state = 5;
 			}
+			audioScript.SendMessage ("clickAudio");
+
 			called = true;
 		}
 	}
 
 	public void OnClickWater(){
-		if (!called) {
+		if (!called && !clock.gameClear) {
 			js.state = 6;
+			audioScript.SendMessage ("clickAudio");
+			called = true;
 		}	
 	}
 
 	public void OnClickNextBeer(){
-		SceneManager.LoadScene ("main");
+		if(!clock.gameClear){
+			SceneManager.LoadScene ("main");
+		}
 	}
 
 	public void OnClickNextStore(){
-		StoreButton (true);
-		DrinkButton (false);
-		NextButton (false);
+		if (!clock.gameClear) {
+			StoreButton (true);
+			DrinkButton (false);
+			NextButton (false);
+			audioScript.SendMessage ("clickAudio");
+
+		}
 	}
 
 	public void OnClickReturn(){
-		NextButton (true);
-		DrinkButton (false);
-		StoreButton (false);
+		if (!clock.gameClear) {
+			NextButton (true);
+			DrinkButton (false);
+			StoreButton (false);
+			audioScript.SendMessage ("clickAudio");
+
+		}
 	}
 
 	public void OnClickSakaya(){
-		GameObject.Find ("DontDestroy").SendMessage ("ChangeSakaya");
+		if (!clock.gameClear) {
+			audioScript.SendMessage ("clickAudio");
+
+			GameObject.Find ("DontDestroy").SendMessage ("ChangeSakaya");
+
+		}
 	}
 
 	public void OnClickBar(){
-		GameObject.Find("DontDestroy").SendMessage ("ChangeBar");
+		if (!clock.gameClear) {
+			audioScript.SendMessage ("clickAudio");
+
+			GameObject.Find ("DontDestroy").SendMessage ("ChangeBar");
+
+		}
 	}
 
 	public void OnClickBack(){
+		audioScript.SendMessage ("clickAudio");
+		clock.SendMessage ("OnClickReturn");
 		SceneManager.LoadScene ("GameStart");
 	}
 }

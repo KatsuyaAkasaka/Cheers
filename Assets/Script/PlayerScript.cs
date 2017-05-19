@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour {
 	public Text gameOverText;
 	private float moving;
 	Rigidbody2D rigid;
-	public float speed = 2f;
+	public float speed = 5f;
 	public float turningSpeed = 30f;
 	TimerScript ts;
 	public bool gameOver = false;
@@ -30,11 +30,10 @@ public class PlayerScript : MonoBehaviour {
 		//操作可能になったら(ゲームが終わってなかったら)
 		if (cs.finish && !ts.gameFinish && !gameOver) {
 			moving = Input.acceleration.x;
-				//Input.GetAxis ("Horizontal");
-			//if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.LeftArrow)) {
+			moving = Input.GetAxis ("Horizontal") * 0.8f;
+					
 			if(Mathf.Abs(moving) > 0.1f){
 				rigid.position += new Vector2 (moving * speed * Time.deltaTime, 0);
-				//rigid.position += new Vector2 (moving * speed * Time.deltaTime, 0);
 				jug.transform.Rotate (0f, 0f, moving * turningSpeed * Time.deltaTime);	
 				
 			} else {
@@ -47,7 +46,7 @@ public class PlayerScript : MonoBehaviour {
 			}
 		}
 			
-		if (score > 1 && !ts.gameFinish) {
+		if (score > 0 && !ts.gameFinish) {
 			gameOverText.text = "GameOver...";
 			gameOver = true;
 
